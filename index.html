@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexLane Systems — Operations, Modernized.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black:    #0A0A0F;
+    --black2:   #0F0F18;
+    --blue:     #2563EB;
+    --blue-mid: #3B82F6;
+    --blue-glow:#1D4ED8;
+    --white:    #FFFFFF;
+    --slate:    #94A3B8;
+    --slate-dim:#64748B;
+    --card-bg:  #13131E;
+    --border:   rgba(255,255,255,0.07);
+    --font-display: 'Sora', sans-serif;
+    --font-body:    'Inter', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 68px;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--blue-mid); }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--slate);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--blue);
+    color: var(--white) !important;
+    padding: 0.5rem 1.25rem;
+    border-radius: 8px;
+    font-weight: 600 !important;
+    transition: background 0.2s, transform 0.15s !important;
+  }
+  .nav-cta:hover { background: var(--blue-mid) !important; transform: translateY(-1px); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    text-align: center;
+    padding: 120px 5% 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,0.18) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(37,99,235,0.08) 0%, transparent 60%);
+  }
+
+  /* Animated lane lines */
+  .lane-lines {
+    position: absolute; inset: 0; z-index: 0; overflow: hidden;
+  }
+  .lane-line {
+    position: absolute;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(37,99,235,0.4) 40%, rgba(59,130,246,0.6) 50%, rgba(37,99,235,0.4) 60%, transparent 100%);
+    animation: laneSweep 6s ease-in-out infinite;
+    opacity: 0;
+  }
+  .lane-line:nth-child(1) { width: 60%; top: 30%; left: -60%; animation-delay: 0s; }
+  .lane-line:nth-child(2) { width: 80%; top: 50%; left: -80%; animation-delay: 2s; }
+  .lane-line:nth-child(3) { width: 50%; top: 70%; left: -50%; animation-delay: 4s; }
+
+  @keyframes laneSweep {
+    0%   { left: -80%; opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { left: 100%; opacity: 0; }
+  }
+
+  .hero-content { position: relative; z-index: 1; max-width: 860px; }
+
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(37,99,235,0.12);
+    border: 1px solid rgba(37,99,235,0.3);
+    border-radius: 100px;
+    padding: 0.35rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 2rem;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--blue-mid);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 .accent { color: var(--blue-mid); }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: var(--slate);
+    font-weight: 400;
+    max-width: 580px;
+    margin: 0 auto 3rem;
+    line-height: 1.7;
+  }
+
+  .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--blue);
+    color: var(--white);
+    padding: 0.875rem 2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 0 0 0 rgba(37,99,235,0.4);
+  }
+  .btn-primary:hover {
+    background: var(--blue-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.35);
+  }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: transparent;
+    color: var(--white);
+    padding: 0.875rem 2rem;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: border-color 0.2s, transform 0.15s, background 0.2s;
+  }
+  .btn-secondary:hover {
+    border-color: rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.04);
+    transform: translateY(-2px);
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    margin-top: 5rem;
+    display: flex; gap: 0; justify-content: center;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.02);
+    overflow: hidden;
+    max-width: 700px;
+    width: 100%;
+  }
+  .stat-item {
+    flex: 1;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--white);
+    letter-spacing: -0.03em;
+    display: block;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--slate-dim);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 0.25rem;
+    display: block;
+  }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 100px 5%; }
+
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 1.25rem;
+  }
+  .section-sub {
+    font-size: 1.05rem;
+    color: var(--slate);
+    max-width: 560px;
+    line-height: 1.7;
+  }
+  .section-header { margin-bottom: 4rem; }
+
+  /* ── SERVICES ── */
+  #services { background: var(--black2); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .service-card {
+    background: var(--card-bg);
+    padding: 2.5rem;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--blue), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .service-card:hover { background: #161625; }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-icon {
+    width: 48px; height: 48px;
+    background: rgba(37,99,235,0.12);
+    border: 1px solid rgba(37,99,235,0.25);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.4rem;
+  }
+  .service-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.75rem;
+  }
+  .service-card p {
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+  .service-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    background: rgba(37,99,235,0.1);
+    color: var(--blue-mid);
+    border: 1px solid rgba(37,99,235,0.2);
+  }
+
+  /* ── WHO WE SERVE ── */
+  #clients { background: var(--black); }
+
+  .clients-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .clients-list { list-style: none; display: flex; flex-direction: column; gap: 1rem; }
+  .clients-list li {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--card-bg);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .clients-list li:hover {
+    border-color: rgba(37,99,235,0.35);
+    transform: translateX(4px);
+  }
+  .client-icon {
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .client-info h4 {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+  }
+  .client-info p {
+    font-size: 0.82rem;
+    color: var(--slate);
+  }
+
+  /* ── PROCESS ── */
+  #process { background: var(--black2); }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px; left: 10%; right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--blue), var(--blue), transparent);
+    opacity: 0.3;
+  }
+  .process-step { padding: 0 1.5rem; text-align: center; }
+  .step-num {
+    width: 56px; height: 56px;
+    background: var(--card-bg);
+    border: 1px solid rgba(37,99,235,0.35);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--blue-mid);
+    position: relative; z-index: 1;
+  }
+  .process-step h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .process-step p {
+    font-size: 0.85rem;
+    color: var(--slate);
+    line-height: 1.6;
+  }
+
+  /* ── CASE STUDY ── */
+  #casestudy { background: var(--black); }
+
+  .case-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .case-content { padding: 3.5rem; }
+  .case-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--blue-mid);
+    margin-bottom: 1.5rem;
+  }
+  .case-content h3 {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+  }
+  .case-content p {
+    font-size: 0.9rem;
+    color: var(--slate);
+    line-height: 1.75;
+    margin-bottom: 2rem;
+  }
+  .case-results {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  .result-item {
+    background: rgba(37,99,235,0.08);
+    border: 1px solid rgba(37,99,235,0.18);
+    border-radius: 10px;
+    padding: 1rem;
+  }
+  .result-num {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--blue-mid);
+    letter-spacing: -0.03em;
+    display: block;
+  }
+  .result-label {
+    font-size: 0.75rem;
+    color: var(--slate);
+    margin-top: 0.15rem;
+    display: block;
+  }
+  .case-visual {
+    background: linear-gradient(135deg, rgba(37,99,235,0.15) 0%, rgba(10,10,15,1) 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 3rem;
+    border-left: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+
+  /* mini dashboard mockup */
+  .mini-dash {
+    width: 100%;
+    max-width: 280px;
+    background: #0A0A0F;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  .mini-dash-header {
+    background: #13131E;
+    padding: 0.75rem 1rem;
+    display: flex; align-items: center; gap: 0.4rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FEBC2E; }
+  .dot-g { background: #28C840; }
+  .mini-dash-title {
+    font-size: 0.65rem;
+    color: var(--slate-dim);
+    margin-left: 0.5rem;
+    font-weight: 500;
+  }
+  .mini-dash-body { padding: 1rem; }
+  .mini-kpi-row { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .mini-kpi {
+    flex: 1;
+    background: rgba(37,99,235,0.1);
+    border-radius: 6px;
+    padding: 0.5rem;
+  }
+  .mini-kpi-val {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--white);
+    display: block;
+  }
+  .mini-kpi-lbl {
+    font-size: 0.55rem;
+    color: var(--slate-dim);
+    display: block;
+    margin-top: 1px;
+  }
+  .mini-chart { height: 60px; position: relative; margin-top: 0.5rem; }
+  .mini-chart svg { width: 100%; height: 100%; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--black2); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+  .about-text p {
+    color: var(--slate);
+    font-size: 1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+  .about-text p strong { color: var(--white); font-weight: 600; }
+  .tech-stack { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+  .tech-pill {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.4rem 0.9rem;
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    color: var(--slate);
+    letter-spacing: 0.02em;
+  }
+  .about-credentials { display: flex; flex-direction: column; gap: 1rem; }
+  .cred-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.25rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .cred-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .cred-info h4 { font-weight: 600; font-size: 0.9rem; margin-bottom: 0.2rem; }
+  .cred-info p { font-size: 0.8rem; color: var(--slate); }
+
+  /* ── CTA ── */
+  #contact {
+    background: var(--black);
+    text-align: center;
+    padding: 120px 5%;
+  }
+  .cta-box {
+    max-width: 700px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border: 1px solid rgba(37,99,235,0.25);
+    border-radius: 24px;
+    padding: 5rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-box::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, var(--blue), var(--blue-mid), transparent);
+  }
+  .cta-box h2 {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .cta-box p {
+    color: var(--slate);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    max-width: 450px;
+    margin-left: auto; margin-right: auto;
+  }
+  .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black2);
+    border-top: 1px solid var(--border);
+    padding: 3rem 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+  .footer-logo span { color: var(--blue-mid); }
+  .footer-copy {
+    font-size: 0.8rem;
+    color: var(--slate-dim);
+  }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 0.8rem;
+    color: var(--slate-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--white); }
+
+
+  /* ── HAMBURGER & MOBILE MENU ── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: rgba(10,10,15,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    z-index: 99;
+    padding: 1.5rem 5%;
+    transform: translateY(-10px);
+    opacity: 0;
+    transition: all 0.25s ease;
+  }
+  .mobile-menu.open {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .mobile-menu ul { list-style: none; display: flex; flex-direction: column; gap: 0; }
+  .mobile-menu ul li a {
+    display: block;
+    padding: 1rem 0;
+    color: var(--slate);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s;
+  }
+  .mobile-menu ul li:last-child a { border-bottom: none; }
+  .mobile-menu ul li a:hover { color: var(--white); }
+  .mobile-menu ul li a.mobile-cta {
+    color: var(--blue-mid);
+    font-weight: 700;
+    border-bottom: none;
+    margin-top: 0.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+  }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--black); padding: 100px 5%; }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 3rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1rem; }
+
+  .contact-card {
+    display: flex; align-items: flex-start; gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .contact-card:hover {
+    border-color: rgba(37,99,235,0.35);
+    transform: translateX(4px);
+  }
+  .contact-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+  .contact-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate-dim);
+    margin-bottom: 0.3rem;
+  }
+  .contact-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--white);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-value:hover { color: var(--blue-mid); }
+
+  .contact-form-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-form-wrap::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue), var(--blue-mid), transparent);
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+  .form-group label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--slate);
+    letter-spacing: 0.03em;
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .form-group select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%2364748B' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+    cursor: pointer;
+  }
+  .form-group select option { background: #13131E; color: var(--white); }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: var(--slate-dim); }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: rgba(37,99,235,0.5);
+    background: rgba(37,99,235,0.05);
+  }
+  .form-group textarea { resize: vertical; min-height: 110px; }
+
+  .btn-submit {
+    width: 100%;
+    display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+    background: var(--blue);
+    color: var(--white);
+    border: none;
+    padding: 0.95rem 2rem;
+    border-radius: 10px;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    margin-top: 0.5rem;
+  }
+  .btn-submit:hover {
+    background: var(--blue-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.35);
+  }
+  .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+
+  .form-success {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    background: rgba(34,197,94,0.1);
+    border: 1px solid rgba(34,197,94,0.25);
+    border-radius: 10px;
+    font-size: 0.88rem;
+    color: #86efac;
+  }
+  .form-error {
+    margin-top: 1rem;
+    padding: 1rem 1.25rem;
+    background: rgba(239,68,68,0.1);
+    border: 1px solid rgba(239,68,68,0.25);
+    border-radius: 10px;
+    font-size: 0.88rem;
+    color: #fca5a5;
+  }
+  .form-error a { color: #93c5fd; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .nav-links { display: none; }
+    .clients-split,
+    .case-card,
+    .about-grid { grid-template-columns: 1fr; }
+    .case-visual { display: none; }
+    .process-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .process-steps::before { display: none; }
+    .stats-bar { flex-wrap: wrap; }
+  }
+  @media (max-width: 600px) {
+    .process-steps { grid-template-columns: 1fr; }
+    .cta-box { padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">NexLane<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#clients">Who We Serve</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#casestudy">Case Study</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="lane-lines">
+    <div class="lane-line"></div>
+    <div class="lane-line"></div>
+    <div class="lane-line"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Industrial Operations Intelligence</div>
+    <h1>
+      The data layer<br/>your plant has<br/>
+      <span class="accent">been missing.</span>
+    </h1>
+    <p class="hero-sub">
+      NexLane Systems modernizes manufacturers across Connecticut — connecting SCADA systems, historian databases, and executive dashboards into one intelligent operations layer.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        Start a Conversation
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <a href="#services" class="btn-secondary">See Our Work</a>
+    </div>
+    <div class="stats-bar fade-up">
+      <div class="stat-item">
+        <span class="stat-num">14+</span>
+        <span class="stat-label">Historian DBs Managed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">5</span>
+        <span class="stat-label">Service Lines</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">CT</span>
+        <span class="stat-label">Based &amp; Deployed</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-num">v8.1</span>
+        <span class="stat-label">Ignition Certified</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-header fade-up">
+    <div class="section-eyebrow">What We Do</div>
+    <h2 class="section-title">Five ways we move<br/>your operations forward.</h2>
+    <p class="section-sub">From a broken SCADA screen to a full executive intelligence layer — we handle every layer of the industrial stack.</p>
+  </div>
+  <div class="services-grid fade-up">
+    <div class="service-card">
+      <div class="service-icon">⚙️</div>
+      <h3>SCADA & MES Modernization</h3>
+      <p>Ignition Vision screens that actually work — SQL-bound, crash-free, and built for your operators. We take your legacy HMI and make it the control room you always needed.</p>
+      <div class="service-tags">
+        <span class="tag">Ignition v8.1</span>
+        <span class="tag">Vision</span>
+        <span class="tag">Historian</span>
+        <span class="tag">Named Queries</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🗄️</div>
+      <h3>SQL Server & Data Infrastructure</h3>
+      <p>Unmanaged SQL Servers, Access databases, and log files that haven't been backed up since 2021. We audit, migrate, and stabilize your data layer so nothing stops production.</p>
+      <div class="service-tags">
+        <span class="tag">SQL Server</span>
+        <span class="tag">Access Migration</span>
+        <span class="tag">ETL</span>
+        <span class="tag">Historian DBs</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">☀️</div>
+      <h3>Energy Intelligence Dashboards</h3>
+      <p>Real-time solar, grid, and utility data in one executive view. Connect your eGauge meters and Eversource data into a live dashboard your CEO opens every morning.</p>
+      <div class="service-tags">
+        <span class="tag">eGauge</span>
+        <span class="tag">Eversource EPO</span>
+        <span class="tag">Live Data</span>
+        <span class="tag">KPI Scorecard</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">📊</div>
+      <h3>Executive KPI Dashboards</h3>
+      <p>Your leadership is making decisions from spreadsheets. We build live React dashboards that pull from your historian and SQL Server — decisions based on what's happening now.</p>
+      <div class="service-tags">
+        <span class="tag">React</span>
+        <span class="tag">Spring Boot</span>
+        <span class="tag">Real-Time</span>
+        <span class="tag">GitHub Pages</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🚨</div>
+      <h3>Alarm Management & Compliance</h3>
+      <p>Environmental permits don't wait. We automate your compliance reporting — pH, flow, and process alarms — so the right people get notified and the PDF lands in their inbox every morning.</p>
+      <div class="service-tags">
+        <span class="tag">Alarm Pipelines</span>
+        <span class="tag">SMTP</span>
+        <span class="tag">Scheduled Reports</span>
+        <span class="tag">PDF Delivery</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🔍</div>
+      <h3>SQL Server Health Audit</h3>
+      <p>A single engagement to find every ticking time bomb in your database infrastructure. Recovery modes, log bloat, missing backups, orphaned historian tags — we find them before they find you.</p>
+      <div class="service-tags">
+        <span class="tag">Recovery Audit</span>
+        <span class="tag">Log Management</span>
+        <span class="tag">Backup Strategy</span>
+        <span class="tag">Fixed Price</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHO WE SERVE -->
+<section id="clients">
+  <div class="clients-split">
+    <div class="fade-up">
+      <div class="section-eyebrow">Who We Serve</div>
+      <h2 class="section-title">Built for Connecticut manufacturers.</h2>
+      <p class="section-sub">If your plant runs on Ignition, SQL Server, or Access databases — and your executives are still looking at spreadsheets — we are built for you.</p>
+    </div>
+    <ul class="clients-list fade-up">
+      <li>
+        <div class="client-icon">🏭</div>
+        <div class="client-info">
+          <h4>Mid-size Manufacturers</h4>
+          <p>50–500 employees, running legacy SCADA or no SCADA at all. Production data lives in people's heads or Excel files.</p>
+        </div>
+      </li>
+      <li>
+        <div class="client-icon">⚡</div>
+        <div class="client-info">
+          <h4>Energy & Solar Operators</h4>
+          <p>Solar installations with no real-time visibility into production vs. grid consumption. Energy savings are invisible.</p>
+        </div>
+      </li>
+      <li>
+        <div class="client-icon">🌿</div>
+        <div class="client-info">
+          <h4>Regulated Process Plants</h4>
+          <p>Environmental compliance reporting done manually, monthly, by a person with a spreadsheet. One missed reading is a permit violation.</p>
+        </div>
+      </li>
+      <li>
+        <div class="client-icon">📦</div>
+        <div class="client-info">
+          <h4>Food, Tobacco & Specialty Goods</h4>
+          <p>Complex batch production with no digital trail. Quality data locked in Access or paper logs.</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="section-header fade-up" style="text-align:center; max-width:600px; margin:0 auto 5rem;">
+    <div class="section-eyebrow">How We Work</div>
+    <h2 class="section-title">Four steps. No surprises.</h2>
+    <p class="section-sub" style="margin:0 auto;">We move fast, show our work at every step, and never bill for something you didn't approve.</p>
+  </div>
+  <div class="process-steps fade-up">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <h4>Discovery</h4>
+      <p>One conversation. We walk your floor, review your systems, and tell you exactly what we see — no obligation.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <h4>Audit & Scope</h4>
+      <p>Fixed-price health check of your SCADA, SQL, and data infrastructure. We deliver a written findings report.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <h4>Build & Deploy</h4>
+      <p>Incremental delivery. You see and approve every screen, query, and dashboard before it goes live.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <h4>Handoff & Support</h4>
+      <p>Full documentation. Your team owns it. We stay available for support, enhancements, and whatever comes next.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CASE STUDY -->
+<section id="casestudy">
+  <div class="section-header fade-up">
+    <div class="section-eyebrow">Case Study</div>
+    <h2 class="section-title">From Access files to a<br/>live intelligence layer.</h2>
+  </div>
+  <div class="case-card fade-up">
+    <div class="case-content">
+      <div class="case-label">Connecticut Specialty Manufacturer · 2026</div>
+      <h3>Full SCADA & Data Modernization for a Multi-Line Production Facility</h3>
+      <p>A Connecticut tobacco manufacturer was running 14 SQL Server historian databases in FULL recovery mode with no log backups since 2021 — a single failure away from losing years of production data. Operator screens crashed on export. Quality data lived in Access files. Leadership had no visibility into energy costs or batch performance.</p>
+      <p>NexLane Systems stabilized the entire data infrastructure, rebuilt the Ignition Vision screens, automated daily compliance reporting, and delivered a live solar + grid energy dashboard to the executive team — all within the first 90 days on site.</p>
+      <div class="case-results">
+        <div class="result-item">
+          <span class="result-num">14+</span>
+          <span class="result-label">Historian DBs Stabilized</span>
+        </div>
+        <div class="result-item">
+          <span class="result-num">100%</span>
+          <span class="result-label">Compliance Reports Automated</span>
+        </div>
+        <div class="result-item">
+          <span class="result-num">5</span>
+          <span class="result-label">Ignition Screens Rebuilt</span>
+        </div>
+        <div class="result-item">
+          <span class="result-num">0</span>
+          <span class="result-label">Production Disruptions</span>
+        </div>
+      </div>
+    </div>
+    <div class="case-visual">
+      <div class="mini-dash">
+        <div class="mini-dash-header">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="mini-dash-title">Operations Dashboard — Live</span>
+        </div>
+        <div class="mini-dash-body">
+          <div class="mini-kpi-row">
+            <div class="mini-kpi">
+              <span class="mini-kpi-val">98.4%</span>
+              <span class="mini-kpi-lbl">Uptime</span>
+            </div>
+            <div class="mini-kpi">
+              <span class="mini-kpi-val">7.22</span>
+              <span class="mini-kpi-lbl">pH Avg</span>
+            </div>
+            <div class="mini-kpi">
+              <span class="mini-kpi-val">✓ OK</span>
+              <span class="mini-kpi-lbl">Alarms</span>
+            </div>
+          </div>
+          <div class="mini-chart">
+            <svg viewBox="0 0 260 60" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#2563EB" stop-opacity="0.4"/>
+                  <stop offset="100%" stop-color="#2563EB" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,45 C20,40 40,30 60,32 C80,34 100,20 120,22 C140,24 160,15 180,18 C200,21 220,12 260,10 L260,60 L0,60 Z" fill="url(#chartGrad)"/>
+              <path d="M0,45 C20,40 40,30 60,32 C80,34 100,20 120,22 C140,24 160,15 180,18 C200,21 220,12 260,10" fill="none" stroke="#3B82F6" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-text fade-up">
+      <div class="section-eyebrow">About NexLane Systems</div>
+      <h2 class="section-title">We've been on your plant floor.</h2>
+      <p>NexLane Systems was founded by a senior SCADA and data engineer with hands-on experience inside Connecticut manufacturing facilities. We don't consult from a boardroom — we've sat at the historian, pulled the SQL logs, and rebuilt the screens while production was running.</p>
+      <p>Our founder brings <strong>full-stack expertise across Ignition SCADA, SQL Server, React, and Spring Boot</strong> — with prior enterprise experience at Amazon, Verizon, and Black Knight Financial. We combine the rigor of enterprise software with the speed and ownership of a boutique firm.</p>
+      <p>We're based in <strong>South Windsor, Connecticut</strong>, and we focus exclusively on manufacturers and industrial operators in the Northeast.</p>
+      <div class="tech-stack">
+        <span class="tech-pill">Ignition SCADA</span>
+        <span class="tech-pill">SQL Server</span>
+        <span class="tech-pill">React</span>
+        <span class="tech-pill">Spring Boot</span>
+        <span class="tech-pill">Python</span>
+        <span class="tech-pill">ETL Pipelines</span>
+        <span class="tech-pill">eGauge</span>
+        <span class="tech-pill">GitHub Actions</span>
+      </div>
+    </div>
+    <div class="about-credentials fade-up">
+      <div class="cred-item">
+        <div class="cred-icon">🎓</div>
+        <div class="cred-info">
+          <h4>M.S. Computer Engineering — University of Houston</h4>
+          <p>Graduate research in systems and data engineering</p>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-icon">🤖</div>
+        <div class="cred-info">
+          <h4>M.S. Artificial Intelligence — University of the Cumberlands</h4>
+          <p>Active graduate program in applied AI</p>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-icon">🏭</div>
+        <div class="cred-info">
+          <h4>Active SCADA Deployment — Connecticut</h4>
+          <p>Currently sole on-site data engineer at a multi-line CT manufacturer</p>
+        </div>
+      </div>
+      <div class="cred-item">
+        <div class="cred-icon">🏢</div>
+        <div class="cred-info">
+          <h4>Enterprise Background</h4>
+          <p>Amazon, Verizon, Black Knight Financial — production systems at scale</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header fade-up" style="text-align:center; max-width:600px; margin:0 auto 4rem;">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h2 class="section-title">Ready to move to<br/>the next lane?</h2>
+    <p class="section-sub" style="margin:0 auto;">Start with a free 30-minute discovery call. We'll tell you exactly what we see and what it would take to fix it — no pitch deck, no obligation.</p>
+  </div>
+
+  <div class="contact-grid fade-up">
+
+    <!-- Left: contact info -->
+    <div class="contact-info">
+      <div class="contact-card">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <a href="mailto:sudheergodugu@gmail.com" class="contact-value">sudheergodugu@gmail.com</a>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <a href="tel:+12817590714" class="contact-value">(281) 759-0714</a>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">📍</div>
+        <div>
+          <div class="contact-label">Location</div>
+          <span class="contact-value">South Windsor, Connecticut</span>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-icon">🕐</div>
+        <div>
+          <div class="contact-label">Response Time</div>
+          <span class="contact-value">Within 24 hours</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: form -->
+    <div class="contact-form-wrap">
+      <form id="contactForm" onsubmit="handleSubmit(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="fname" placeholder="John" required />
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lname" placeholder="Smith" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Work Email</label>
+          <input type="email" id="email" name="email" placeholder="john@yourcompany.com" required />
+        </div>
+        <div class="form-group">
+          <label for="company">Company & Location</label>
+          <input type="text" id="company" name="company" placeholder="Acme Manufacturing, Hartford CT" />
+        </div>
+        <div class="form-group">
+          <label for="service">What do you need help with?</label>
+          <select id="service" name="service">
+            <option value="" disabled selected>Select a service</option>
+            <option>SCADA & MES Modernization</option>
+            <option>SQL Server & Data Infrastructure</option>
+            <option>Energy Intelligence Dashboard</option>
+            <option>Executive KPI Dashboard</option>
+            <option>Alarm Management & Compliance</option>
+            <option>SQL Server Health Audit</option>
+            <option>Not sure — just want to talk</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Tell us about your situation</label>
+          <textarea id="message" name="message" rows="4" placeholder="What systems are you running? What's broken or missing? What would a win look like for your team?"></textarea>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span id="btnText">Send Message</span>
+          <svg id="btnArrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg id="btnSpinner" style="display:none; animation:spin 0.8s linear infinite;" width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,0.3)" stroke-width="2"/><path d="M8 2a6 6 0 0 1 6 6" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <div id="formSuccess" class="form-success" style="display:none;">
+          <span>✅</span> Message sent! Sudheer will be in touch within 24 hours.
+        </div>
+        <div id="formError" class="form-error" style="display:none;">
+          ⚠️ Something went wrong. Please email <a href="mailto:sudheergodugu@gmail.com">sudheergodugu@gmail.com</a> directly.
+        </div>
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NexLane<span>.</span> Systems</div>
+  <div class="footer-copy">© 2026 NexLane Systems LLC · South Windsor, CT</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Scroll-triggered fade-up
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Stagger service cards
+
+
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    btn.classList.toggle('open');
+  }
+  function closeMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  }
+  // Close menu on outside click
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobileMenu');
+    const btn = document.getElementById('hamburger');
+    if (!menu.contains(e.target) && !btn.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  // Contact form handler (Formspree)
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const btnText = document.getElementById('btnText');
+    const btnArrow = document.getElementById('btnArrow');
+    const btnSpinner = document.getElementById('btnSpinner');
+    const success = document.getElementById('formSuccess');
+    const error = document.getElementById('formError');
+
+    btn.disabled = true;
+    btnText.textContent = 'Sending...';
+    btnArrow.style.display = 'none';
+    btnSpinner.style.display = 'inline';
+    success.style.display = 'none';
+    error.style.display = 'none';
+
+    const form = document.getElementById('contactForm');
+    const data = {
+      firstName: form.fname.value,
+      lastName: form.lname.value,
+      email: form.email.value,
+      company: form.company.value,
+      service: form.service.value,
+      message: form.message.value
+    };
+
+    try {
+      // Using Formspree — replace YOUR_FORM_ID with actual Formspree ID after signup
+      const res = await fetch('https://formspree.io/f/xkolrkpd', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if (res.ok) {
+        success.style.display = 'flex';
+        form.reset();
+      } else {
+        throw new Error('Server error');
+      }
+    } catch(err) {
+      error.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btnText.textContent = 'Send Message';
+      btnArrow.style.display = 'inline';
+      btnSpinner.style.display = 'none';
+    }
+  }
+
+  document.querySelectorAll('.service-card').forEach((card, i) => {
+    card.style.transitionDelay = `${i * 0.07}s`;
+    card.classList.add('fade-up');
+    observer.observe(card);
+  });
+</script>
+</body>
+</html>
