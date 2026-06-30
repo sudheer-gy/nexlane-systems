@@ -75,26 +75,52 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Server misconfiguration' });
     }
 
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
-      {
+    const body = JSON.stringify({
+      contents,
+      systemInstruction: { parts: [{ text: SYSTEM_CONTEXT }] },
+      generationConfig: {
+        temperature: 0.6,
+        maxOutputTokens: 500,
+      },
+    });
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+
+    // Retry on 429 (rate limit) / 503 (overloaded) with short backoff.
+    // Free tier limits are low, so a quick retry often succeeds.
+    let geminiRes;
+    let lastStatus;
+    const delays = [600, 1500]; // ms — up to 2 retries beyond the first try
+    for (let attempt = 0; attempt <= delays.length; attempt++) {
+      geminiRes = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents,
-          systemInstruction: { parts: [{ text: SYSTEM_CONTEXT }] },
-          generationConfig: {
-            temperature: 0.6,
-            maxOutputTokens: 500,
-          },
-        }),
+        body,
+      });
+      lastStatus = geminiRes.status;
+      if (geminiRes.ok) break;
+      if (lastStatus !== 429 && lastStatus !== 503) break; // non-retryable
+      if (attempt < delays.length) {
+        await new Promise((r) => setTimeout(r, delays[attempt]));
       }
-    );
+    }
 
     if (!geminiRes.ok) {
       const errText = await geminiRes.text();
-      console.error('Gemini API error:', geminiRes.status, errText);
-      return res.status(502).json({ error: 'Upstream error' });
+      console.error('Gemini API error:', lastStatus, errText);
+
+      if (lastStatus === 429) {
+        return res.status(429).json({
+          error: 'rate_limited',
+          reply:
+            "I'm getting a lot of questions right now and hit a temporary limit — please try again in a few seconds, or use the contact form below.",
+        });
+      }
+      return res.status(502).json({
+        error: 'upstream_error',
+        reply:
+          "Sorry, I'm having trouble reaching the assistant right now. Please try again shortly or use the contact form below.",
+      });
     }
 
     const data = await geminiRes.json();
